@@ -1,6 +1,7 @@
 // Zugriff auf die Eingabefelder und das 3D-Modell
 const modelUpload = document.getElementById('model-upload');
 const modelEntity = document.getElementById('model');
+const imageUpload = document.getElementById('image-upload');
 
 // Event-Listener für das Hochladen von Modellen
 modelUpload.addEventListener('change', function(event) {
@@ -9,6 +10,24 @@ modelUpload.addEventListener('change', function(event) {
 
     reader.onload = function(e) {
         modelEntity.setAttribute('gltf-model', e.target.result);
+    };
+
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+});
+
+// Event-Listener für das Hochladen von Bildern
+imageUpload.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const markerUrl = e.target.result;
+        const markerElement = document.querySelector('#marker');
+
+        // Setze die Marker-URL für das AR.js Marker-Element
+        markerElement.setAttribute('url', markerUrl);
     };
 
     if (file) {
