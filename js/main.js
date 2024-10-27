@@ -1,6 +1,5 @@
-// Zugriff auf die Eingabefelder und das 3D-Modell
+// Zugriff auf die Eingabefelder
 const modelUpload = document.getElementById('model-upload');
-const modelEntity = document.getElementById('model');
 const imageUpload = document.getElementById('image-upload');
 
 // Event-Listener für das Hochladen von Modellen
@@ -9,7 +8,10 @@ modelUpload.addEventListener('change', function(event) {
     const reader = new FileReader();
 
     reader.onload = function(e) {
-        modelEntity.setAttribute('gltf-model', e.target.result);
+        // Hier wird das 3D-Modell gespeichert
+        console.log('Modell hochgeladen:', e.target.result);
+        // Du kannst das Modell in einer Datenstruktur speichern
+        // z.B. in einer globalen Variable oder einer Datenbank
     };
 
     if (file) {
@@ -23,11 +25,9 @@ imageUpload.addEventListener('change', function(event) {
     const reader = new FileReader();
 
     reader.onload = function(e) {
-        const markerUrl = e.target.result;
-        const markerElement = document.querySelector('#marker');
-
-        // Setze die Marker-URL für das AR.js Marker-Element
-        markerElement.setAttribute('url', markerUrl);
+        // Hier wird das Trigger-Bild gespeichert
+        console.log('Bild hochgeladen:', e.target.result);
+        // Auch das Bild kannst du in einer Datenstruktur speichern
     };
 
     if (file) {
@@ -35,23 +35,17 @@ imageUpload.addEventListener('change', function(event) {
     }
 });
 
-// Funktionen zum Bewegen und Skalieren des Modells
-document.getElementById('move-up').addEventListener('click', () => {
-    const position = modelEntity.getAttribute('position');
-    modelEntity.setAttribute('position', { x: position.x, y: position.y + 0.1, z: position.z });
-});
+// Funktion zum Speichern der Szene
+document.getElementById('save-scene').addEventListener('click', () => {
+    // Hier kannst du die Logik zum Speichern der Szene implementieren
+    // Zum Beispiel kannst du die hochgeladenen Daten in einer JSON-Datei speichern
+    console.log('Szene gespeichert');
+    // Beispiel für das Speichern in einer JSON-Struktur
+    const sceneData = {
+        model: modelUpload.files[0] ? modelUpload.files[0].name : null,
+        image: imageUpload.files[0] ? imageUpload.files[0].name : null
+    };
 
-document.getElementById('move-down').addEventListener('click', () => {
-    const position = modelEntity.getAttribute('position');
-    modelEntity.setAttribute('position', { x: position.x, y: position.y - 0.1, z: position.z });
-});
-
-document.getElementById('scale-up').addEventListener('click', () => {
-    const scale = modelEntity.getAttribute('scale');
-    modelEntity.setAttribute('scale', { x: scale.x + 0.1, y: scale.y + 0.1, z: scale.z + 0.1 });
-});
-
-document.getElementById('scale-down').addEventListener('click', () => {
-    const scale = modelEntity.getAttribute('scale');
-    modelEntity.setAttribute('scale', { x: scale.x - 0.1, y: scale.y - 0.1, z: scale.z - 0.1 });
+    console.log('Szene Daten:', sceneData);
+    // Du müsstest hier auch den Code hinzufügen, um die Daten tatsächlich zu speichern
 });
