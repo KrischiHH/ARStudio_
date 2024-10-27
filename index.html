@@ -11,16 +11,17 @@
 <body>
     <h1>Willkommen im AR Studio</h1>
     <input type="file" class="form-control" id="model-upload" accept=".glb, .gltf" />
-    
+    <input type="file" class="form-control" id="image-upload" accept=".png, .jpg, .jpeg" />
+
     <div class="button-container">
         <button class="btn" id="move-up">Nach oben</button>
         <button class="btn" id="move-down">Nach unten</button>
         <button class="btn" id="scale-up">Vergrößern</button>
         <button class="btn" id="scale-down">Verkleinern</button>
     </div>
-    
+
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
-        <a-marker preset="hiro">
+        <a-marker id="marker" preset="hiro">
             <a-entity id="model" gltf-model="models/testCube.glb" scale="0.1 0.1 0.1" position="0 0 0"></a-entity>
         </a-marker>
         <a-entity camera></a-entity>
