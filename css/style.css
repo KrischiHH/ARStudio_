@@ -25,10 +25,8 @@ input[type="file"] {
     margin-top: 20px; /* Abstand nach oben */
 }
 
-.button-container .btn {
-    flex: 1; /* Gleichmäßige Verteilung */
-    padding: 10px; /* Innenabstand */
-    margin: 0 5px; /* Abstand zwischen den Buttons */
+.btn {
+    padding: 10px 20px; /* Innenabstand */
     border: none; /* Keine Umrandung */
     border-radius: 5px; /* Abgerundete Ecken */
     background-color: #007bff; /* Primäre Hintergrundfarbe */
@@ -38,6 +36,6 @@ input[type="file"] {
     transition: background-color 0.3s; /* Weiche Übergänge bei Hover */
 }
 
-.button-container .btn:hover {
+.btn:hover {
     background-color: #0056b3; /* Dunklere Farbe bei Hover */
 }
