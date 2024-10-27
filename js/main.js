@@ -1,39 +1,38 @@
-// main.js
-const fileInput = document.getElementById('file-input');
-const modelList = document.getElementById('model-list');
+// Zugriff auf die Eingabefelder und das 3D-Modell
+const modelUpload = document.getElementById('model-upload');
 const modelEntity = document.getElementById('model');
 
-// Modell laden und zur Liste hinzufügen
-fileInput.addEventListener('change', function(event) {
-    const files = event.target.files;
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const url = URL.createObjectURL(file);
-        const listItem = document.createElement('li');
-        listItem.textContent = file.name;
+// Event-Listener für das Hochladen von Modellen
+modelUpload.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
-        // Drag & Drop hinzufügen
-        listItem.draggable = true;
-        listItem.addEventListener('dragstart', (e) => {
-            e.dataTransfer.setData('text/plain', url);
-        });
+    reader.onload = function(e) {
+        modelEntity.setAttribute('gltf-model', e.target.result);
+    };
 
-        modelList.appendChild(listItem);
+    if (file) {
+        reader.readAsDataURL(file);
     }
 });
 
-// Modell ins Arbeitsfeld ziehen und anzeigen
-modelEntity.addEventListener('model-loaded', () => {
-    console.log('Modell geladen');
+// Funktionen zum Bewegen und Skalieren des Modells
+document.getElementById('move-up').addEventListener('click', () => {
+    const position = modelEntity.getAttribute('position');
+    modelEntity.setAttribute('position', { x: position.x, y: position.y + 0.1, z: position.z });
 });
 
-// Drag & Drop für das Modell im Arbeitsbereich
-modelEntity.addEventListener('dragover', (e) => {
-    e.preventDefault();
+document.getElementById('move-down').addEventListener('click', () => {
+    const position = modelEntity.getAttribute('position');
+    modelEntity.setAttribute('position', { x: position.x, y: position.y - 0.1, z: position.z });
 });
 
-modelEntity.addEventListener('drop', (e) => {
-    e.preventDefault();
-    const url = e.dataTransfer.getData('text/plain');
-    modelEntity.setAttribute('gltf-model', url);
+document.getElementById('scale-up').addEventListener('click', () => {
+    const scale = modelEntity.getAttribute('scale');
+    modelEntity.setAttribute('scale', { x: scale.x + 0.1, y: scale.y + 0.1, z: scale.z + 0.1 });
+});
+
+document.getElementById('scale-down').addEventListener('click', () => {
+    const scale = modelEntity.getAttribute('scale');
+    modelEntity.setAttribute('scale', { x: scale.x - 0.1, y: scale.y - 0.1, z: scale.z - 0.1 });
 });
