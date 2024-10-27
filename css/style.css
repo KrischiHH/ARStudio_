@@ -1,5 +1,42 @@
-/* Stil für das AR Studio */
 body {
     margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000;
+    color: #fff;
     font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+}
+
+h1 {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    z-index: 10;
+}
+
+#controls {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.workspace {
+    position: absolute;
+    top: 120px;
+    width: 100%;
+    height: calc(100% - 120px);
+}
+
+a-scene {
+    width: 100%;
+    height: 100%;
 }
