@@ -4,25 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AR Studio</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+    </style>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Willkommen im AR Studio</h1>
-    <div id="controls">
-        <input type="file" id="file-input" multiple accept=".gltf,.glb,.obj" />
-        <button id="load-model">Modell laden</button>
-        <ul id="model-list"></ul>
+    <input type="file" class="form-control" id="model-upload" accept=".glb, .gltf" />
+    
+    <div class="button-container">
+        <button class="btn btn-primary" id="move-up">Nach oben</button>
+        <button class="btn btn-primary" id="move-down">Nach unten</button>
+        <button class="btn btn-primary" id="scale-up">Vergrößern</button>
+        <button class="btn btn-primary" id="scale-down">Verkleinern</button>
     </div>
-    <div id="workspace" class="workspace">
-        <a-scene embedded>
-            <a-marker preset="hiro" id="marker">
-                <a-entity id="model" gltf-model="" scale="0.1 0.1 0.1"></a-entity>
-            </a-marker>
-            <a-entity camera></a-entity>
-        </a-scene>
-    </div>
-    <script src="main.js"></script>
+    
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+        <a-marker preset="hiro">
+            <a-entity id="model" gltf-model="models/testCube.glb" scale="0.1 0.1 0.1" position="0 0 0"></a-entity>
+        </a-marker>
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+        const modelUpload = document.getElementById('model-upload');
+        const modelEntity = document.getElementById('model');
+        
+        modelUpload.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                modelEntity.setAttribute('gltf-model', e.target.result);
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('move-up').addEventListener('click', () => {
+            const position = modelEntity.getAttribute('position');
+            modelEntity.setAttribute('position', { x: position.x, y: position.y + 0.1, z: position.z });
+        });
+
+        document.getElementById('move-down').addEventListener('click', () => {
+            const position = modelEntity.getAttribute('position');
+            modelEntity.setAttribute('position', { x: position.x, y: position.y - 0.1, z: position.z });
+        });
+
+        document.getElementById('scale-up').addEventListener('click', () => {
+            const scale = modelEntity.getAttribute('scale');
+            modelEntity.setAttribute('scale', { x: scale.x + 0.1, y: scale.y + 0.1, z: scale.z + 0.1 });
+        });
+
+        document.getElementById('scale-down').addEventListener('click', () => {
+            const scale = modelEntity.getAttribute('scale');
+            modelEntity.setAttribute('scale', { x: scale.x - 0.1, y: scale.y - 0.1, z: scale.z - 0.1 });
+        });
+    </script>
 </body>
 </html>
